@@ -17,6 +17,7 @@
 		base-package="com.app.controller"></context:component-scan>
 		
 
+	<!-- 뷰리졸버 설정 부분 -->
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/"></beans:property>
