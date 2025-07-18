@@ -21,7 +21,9 @@ public class RoomController {
 	//모든 보유 호실정보를 보여주는 요청
 	@GetMapping("/rooms")
 	public String rooms(Model model) {
-				
+		
+		System.out.println("[Controller] 호출 /rooms 경로");
+		
 		//호실정보
 		//Controller -> Service -> DAO
 		List<Room> roomList = roomService.findRoomList();
