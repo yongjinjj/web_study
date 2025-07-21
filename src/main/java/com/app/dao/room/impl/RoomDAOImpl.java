@@ -22,5 +22,13 @@ public class RoomDAOImpl implements RoomDAO {
 		
 		return null;
 	}
+
+	@Override
+	public int saveRoom(Room room) {
+		
+		//room 매개변수 값 -> DB에 저장
+		
+		return 0;
+	}
 	
 }
