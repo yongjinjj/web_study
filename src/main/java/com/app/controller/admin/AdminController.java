@@ -9,13 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.app.dto.room.Room;
+import com.app.dto.user.User;
 import com.app.service.room.RoomService;
+import com.app.service.user.UserService;
 
 @Controller
 public class AdminController {
 	
 	@Autowired
 	RoomService roomService;
+	
+	@Autowired
+	UserService userService;
 
 	@GetMapping("/admin/registerRoom")
 	public String registerRoom() {
@@ -51,6 +56,39 @@ public class AdminController {
 		
 		return "admin/rooms";		
 	}
+	
+	
+	//관리자가 사용자계정관리 -> 사용자 계정을 추가
+	@GetMapping("/admin/users/add")
+	public String addUser() {
+		//화면연결
+		return "admin/addUser";
+	}
+	
+	@PostMapping("/admin/users/add")
+	public String addUserAction(User user) {
+		
+		System.out.println(user);
+		
+		//관리자가 사용자 계정을 추가!!!
+		//사용자 계정이니까 userType "CUS" 여야 한다!! 전제조건! 로직!
+
+		/*
+		//컨트롤러에서 구분값 처리
+		user.setUserType("CUS");
+		//저장 처리 진행
+		int result = userService.saveUser(user);
+		*/
+		
+		//Customer 사용자 저장용 서비스 메소드 활용
+		int result = userService.saveCustomerUser(user);
+		
+		
+		//if(result > 0 ) //정상 저장 처리
+		
+		return "admin/addUser";
+	}
+	
 }
 
 
