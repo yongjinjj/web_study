@@ -84,9 +84,11 @@ public class AdminController {
 		int result = userService.saveCustomerUser(user);
 		
 		
-		//if(result > 0 ) //정상 저장 처리
-		
-		return "admin/addUser";
+		if(result > 0 ) { //정상 저장 처리
+			return "redirect:/admin/users";
+		} else {
+			return "admin/addUser";	
+		}
 	}
 	
 	@GetMapping("/admin/users")
