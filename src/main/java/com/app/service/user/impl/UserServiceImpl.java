@@ -53,4 +53,49 @@ public class UserServiceImpl implements UserService {
 		
 		return userList;
 	}
+
+	@Override
+	public User findUserById(String id) {
+		
+		User user = userDAO.findUserById(id);
+		
+		return user;
+	}
+
+	@Override
+	public User checkUserLogin(User user) {
+
+		//id pw 일치하는가?
+		
+		//사용자 정보를 조회해서, id pw 맞나 확인
+		User loginUser = userDAO.findUserById(user.getId());
+		
+		// if(loginUser != null)		
+		if( loginUser != null && loginUser.getPw().equals(user.getPw())
+					&& loginUser.getUserType().equals(user.getUserType()) ) {
+			return loginUser;
+		}
+		// checkUserLogin 메소드 호출 -> return null? id,pw 틀렸다
+		//   return user객체 ? -> 맞다!
+			
+		return null;
+		
+		/*
+			return 의미가 담긴 코드 (SUC, FAL, LCK)...
+			int 숫자 return -> 1:성공 2:id는 맞는데 비번이 틀렸다 3:아이디없다
+							 4:신고로잠겼다 5: 휴면계정 6:...
+		 */
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
