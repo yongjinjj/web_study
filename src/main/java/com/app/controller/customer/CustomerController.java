@@ -104,6 +104,40 @@ public class CustomerController {
 		
 		return "redirect:/main";
 	}
+	
+	
+	
+	@GetMapping("/customer/modifyPw")
+	public String modifyPw() {
+		return "customer/modifyPw";
+	}
+	
+	@PostMapping("/customer/modifyPw")
+	public String modifyPwAction(User user, HttpSession session) {
+
+		//세션 로그인 사용자 ID
+		//화면에서 전달된 변경할 pw -> User 
+		
+		// 비밀번호 변경 처리 (user)   Service -> DAO -> mapper sql 
+		// set pw = ?
+		// where id = ?
+		
+		// User 전체 update -> 기존정보는 유지 + 변경할 비밀번호
+		
+		// 특정 id의 비밀번호만 update
+		user.setId((String)session.getAttribute("loginUserId"));
+		
+		System.out.println("비밀번호 변경에 사용할 user 객체");
+		System.out.println(user);
+		
+		int result = userService.modifyUserPw(user);
+		
+		if(result > 0) {  //성공
+			return "redirect:/customer/mypage";
+		} else { //실패
+			return "customer/modifyPw";
+		}
+	}
 }
 
 
