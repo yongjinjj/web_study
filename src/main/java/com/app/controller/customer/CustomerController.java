@@ -7,9 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.common.ApiCommonCode;
 import com.app.common.CommonCode;
+import com.app.dto.api.ApiResponse;
+import com.app.dto.api.ApiResponseHeader;
 import com.app.dto.user.User;
+import com.app.dto.user.UserDupCheck;
 import com.app.service.user.UserService;
 import com.app.util.LoginManager;
 
@@ -41,6 +47,63 @@ public class CustomerController {
 			return "customer/signup";
 		}
 	}
+	
+	@ResponseBody
+	@PostMapping("/customer/checkDupId")
+	public String checkDupId(@RequestBody String data) {  //단순 텍스트
+		System.out.println("/customer/checkDupId");
+		System.out.println(data);
+		
+		//처리 로직
+		//클라이언트에서 보낸 데이터가 중복된 사용자 아이디인지 체크
+		boolean result = userService.isDuplicatedId(data);
+		if(result) { //중복O
+			return "Y"; //1
+		} else { //중복X
+			return "N"; //2
+		}
+		
+		//return "/customer/checkDupId";
+		//return "kkkkkkkkkkkIdCheck";
+	}
+	
+	// JSON 포맷으로 통신
+	@ResponseBody
+	@PostMapping("/customer/checkDupIdJson")
+	//public String checkDupIdJson(@RequestBody String data) { 
+	public ApiResponse<String> checkDupIdJson(@RequestBody UserDupCheck userDupCheck) {
+								 //JSON format text 가 담겨져서 오면 동일한 key값:필드변수
+								//			자동으로 객체형태로 파싱되서 데이터가 담겨진다 
+		System.out.println("/customer/checkDupIdJson");
+		System.out.println(userDupCheck);
+		
+		//처리 로직
+		//클라이언트에서 보낸 데이터가 중복된 사용자 아이디인지 체크
+		boolean result = userService.isDuplicatedId(userDupCheck.getId());
+		
+		
+		ApiResponse<String> apiResponse = new ApiResponse<String>();
+		
+		//header
+		ApiResponseHeader header = new ApiResponseHeader();
+		header.setResultCode(ApiCommonCode.API_RESULT_SUCCESS);
+		header.setResultMessage(ApiCommonCode.API_RESULT_SUCCESS_MSG);
+		
+		apiResponse.setHeader(header);
+		
+		//body
+		if(result) { //중복O
+			apiResponse.setBody("Y");
+		} else { //중복X
+			apiResponse.setBody("N");
+		}
+		
+		return apiResponse;  //객체 return -> JSON format 변환 
+		//return "/customer/checkDupId";
+		//return "kkkkkkkkkkkIdCheck";
+	}
+	
+	
 	
 	//@GetMapping("/customer/login")
 	@GetMapping("/customer/signin")
