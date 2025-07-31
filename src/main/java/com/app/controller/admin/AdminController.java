@@ -165,6 +165,15 @@ public class AdminController {
 		
 		System.out.println(user);
 		
+		//서버에서 Insert 처리전에 유효성 검증
+		if(user.getId() == null || user.getId().trim() == "") {
+			return "admin/addUser";	
+		}
+		
+		if(user.getId().length() < 2 || user.getId().length() > 15) {
+			return "admin/addUser";
+		}
+		
 		//관리자가 사용자 계정을 추가!!!
 		//사용자 계정이니까 userType "CUS" 여야 한다!! 전제조건! 로직!
 
