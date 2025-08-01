@@ -5,9 +5,10 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
+import com.app.controller.study.request.MemberController;
 import com.app.dao.user.UserDAO;
 import com.app.dto.user.User;
+import com.app.dto.user.UserProfileImage;
 import com.app.dto.user.UserSearchCondition;
 
 @Repository
@@ -72,6 +73,22 @@ public class UserDAOImpl implements UserDAO {
 		List<User> userList = sqlSessionTemplate.selectList("user_mapper.findUserListBySearchCondition", userSearchCondition);
 		
 		return userList;
+	}
+
+	@Override
+	public int saveUserProfileImage(UserProfileImage userProfileImage) {
+		
+		int result = sqlSessionTemplate.insert("user_mapper.saveUserProfileImage", userProfileImage);
+		
+		return result;
+	}
+
+	@Override
+	public UserProfileImage findUserProfileImageById(String id) {
+		
+		UserProfileImage userProfileImage = sqlSessionTemplate.selectOne("user_mapper.findUserProfileImageById", id);
+		
+		return userProfileImage;
 	}
 	
 	
