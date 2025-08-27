@@ -95,6 +95,8 @@ public class CustomerController {
 		
 		
 		//사용자 회원가입 -> 저장 
+		
+		//!? 사용자 정보 저장하기 전에, 비밀번호 암호화해서 저장해야하는데?  -> 서비스
 		int result = userService.saveCustomerUser(user);
 		
 		if(result > 0) { //성공
